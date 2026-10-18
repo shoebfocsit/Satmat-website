@@ -1,22 +1,22 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import {defineConfig} from 'vite';
+import {defineConfig, loadEnv} from 'vite';
 
 export default defineConfig(({mode}) => {
   const isProd = mode === 'production';
+  const env = loadEnv(mode, process.cwd(), '');
+  const proxyTarget = env.VITE_API_BASE_URL || 'https://satmat-backendfinal.onrender.com';
+  const proxyOrigin = proxyTarget.replace(/\/api\/v1\/?$/, '').replace(/\/$/, '');
 
   return {
     plugins: [react(), tailwindcss()],
 
     server: {
       port: 5173,
-      // Dev proxy: supports both local backend (if running) and live Render backend.
-      // When the Website is built for production it uses same-origin /api/v1
-      // via vercel.json rewrites, so no CORS. In dev we default to the live
-      // backend so charts/results work without a local server.
+      strictPort: true,
       proxy: {
         '/api': {
-          target: process.env.VITE_API_BASE_URL || 'https://satmat-backendfinal.onrender.com',
+          target: proxyOrigin,
           changeOrigin: true,
           secure: true,
         },
