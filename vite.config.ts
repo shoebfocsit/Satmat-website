@@ -5,7 +5,7 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const isProd = mode === 'production';
   const env = loadEnv(mode, process.cwd(), '');
-  const proxyTarget = env.VITE_API_BASE_URL || 'https://satmat-backendfinal.onrender.com';
+  const proxyTarget = env.VITE_API_BASE_URL || 'https://api.satmat.cloud';
   const proxyOrigin = proxyTarget.replace(/\/api\/v1\/?$/, '').replace(/\/$/, '');
 
   return {

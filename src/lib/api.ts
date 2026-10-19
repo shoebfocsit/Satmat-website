@@ -10,7 +10,7 @@
 // This site never touches authenticated endpoints (no wallet/bids/auth) —
 // all trading happens in the webapp (see WEBAPP_URL).
 
-const LIVE_BACKEND = 'https://satmat-backendfinal.onrender.com';
+const LIVE_BACKEND = 'https://api.satmat.cloud';
 
 function resolveApiBase(raw: string | undefined): string {
   const base = (raw || '').trim().replace(/\/+$/, '');
@@ -27,7 +27,7 @@ function resolveApiBase(raw: string | undefined): string {
     return '/api/v1';
   }
   if (!base) return `${LIVE_BACKEND}/api/v1`;
-  // Bare hostname without scheme (e.g. "satmat-backendfinal.onrender.com") -> assume https
+  // Bare hostname without scheme (e.g. "api.satmat.cloud") -> assume https
   let withScheme = base;
   if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(withScheme) && !withScheme.startsWith('/')) {
     withScheme = `https://${withScheme}`;
@@ -293,7 +293,7 @@ export const api = {
 
 export async function fetchResults(): Promise<{ data: ResultsResponse; offline: boolean }> {
   // LIVE-ONLY: always fetch fresh from the same backend the webapp uses
-  // (https://satmat-backendfinal.onrender.com). On failure throw so callers
+  // (https://api.satmat.cloud). On failure throw so callers
   // render an honest error — never a stale snapshot.
   const data = await dedup('results', () => request<ResultsResponse>('/results', 20000));
   return { data, offline: false };

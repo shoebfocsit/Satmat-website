@@ -15,16 +15,15 @@ npm run dev            # http://localhost:5173
 
 ## Deploy (second Vercel project)
 
-1. New Vercel project from the same repo, **Root Directory = `Website`**
-   (the `web/` project is untouched).
+1. New Vercel project from this repo (dedicated repo, Root Directory = `.`).
 2. Environment Variables (all environments):
-   - `VITE_API_BASE_URL` = `https://satmat-backendfinal.onrender.com`
-   - `VITE_WEBAPP_URL` = deployed webapp URL (the `web/` project)
+   - `VITE_API_BASE_URL` = `https://api.satmat.cloud/api/v1`
+   - `VITE_WEBAPP_URL` = `https://player.satmat.cloud`
    - `VITE_WHATSAPP_NUMBER`, `VITE_SUPPORT_EMAIL` = real business values
 3. Deploy. `*.vercel.app` origins are already in the backend CORS allowlist.
 
-Custom domain later: add it to backend `CORS_ORIGINS` (Render dashboard) **and**
-to `index.html` CSP `connect-src`, then redeploy both.
+Custom domain: add `https://satmat.cloud` (+ `www`) to backend `CORS_ORIGINS` **and**
+to `vercel.json` CSP `connect-src` + rewrite (already set), then redeploy both.
 
 ## Checks
 
